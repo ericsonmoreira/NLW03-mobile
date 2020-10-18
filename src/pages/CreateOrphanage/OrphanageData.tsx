@@ -7,49 +7,95 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native-gesture-handler";
+import { useRoute } from "@react-navigation/native";
+import { Formik } from "formik";
 
 const CreateOrphanage: React.FC = () => {
+  const route = useRoute();
+
+  const initialValues = {
+    name: "",
+    latitude: 0,
+    longitude: 0,
+    about: "",
+    instructions: "",
+    opening_hours: "",
+    open_on_week: false,
+    images: [],
+  };
+
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ padding: 24 }}
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(values) => console.log(values)}
     >
-      <Text style={styles.title}>Dados</Text>
+      {({ handleChange, values, handleSubmit, handleBlur, setFieldValue }) => (
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={{ padding: 24 }}
+        >
+          <Text style={styles.title}>Dados</Text>
 
-      <Text style={styles.label}>Nome</Text>
-      <TextInput style={styles.input} />
+          <Text style={styles.label}>Nome</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={handleChange("name")}
+            onBlur={handleBlur("name")}
+            value={values.name}
+          />
 
-      <Text style={styles.label}>Sobre</Text>
-      <TextInput style={[styles.input, { height: 110 }]} multiline />
+          <Text style={styles.label}>Sobre</Text>
+          <TextInput
+            style={[styles.input, { height: 110 }]}
+            onChangeText={handleChange("")}
+            onBlur={handleBlur("about")}
+            value={values.about}
+            multiline
+          />
 
-      <Text style={styles.label}>Whatsapp</Text>
-      <TextInput style={styles.input} />
+          <Text style={styles.label}>Whatsapp</Text>
+          <TextInput style={styles.input} />
 
-      <Text style={styles.label}>Fotos</Text>
-      <TouchableOpacity style={styles.imagesInput} onPress={() => {}}>
-        <Feather name="plus" size={24} color="#15B6D6" />
-      </TouchableOpacity>
+          <Text style={styles.label}>Fotos</Text>
+          <TouchableOpacity style={styles.imagesInput} onPress={() => {}}>
+            <Feather name="plus" size={24} color="#15B6D6" />
+          </TouchableOpacity>
 
-      <Text style={styles.title}>Visitação</Text>
+          <Text style={styles.title}>Visitação</Text>
 
-      <Text style={styles.label}>Instruções</Text>
-      <TextInput style={[styles.input, { height: 110 }]} multiline />
+          <Text style={styles.label}>Instruções</Text>
+          <TextInput
+            style={[styles.input, { height: 110 }]}
+            onChangeText={handleChange("instructions")}
+            onBlur={handleBlur("instructions")}
+            value={values.instructions}
+            multiline
+          />
 
-      <Text style={styles.label}>Horario de visitas</Text>
-      <TextInput style={styles.input} />
+          <Text style={styles.label}>Horario de visitas</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={handleChange("opening_hours")}
+            onBlur={handleBlur("opening_hours")}
+            value={values.opening_hours}
+          />
 
-      <View style={styles.switchContainer}>
-        <Text style={styles.label}>Atende final de semana?</Text>
-        <Switch
-          thumbColor="#fff"
-          trackColor={{ false: "#ccc", true: "#39CC83" }}
-        />
-      </View>
+          <View style={styles.switchContainer}>
+            <Text style={styles.label}>Atende final de semana?</Text>
+            <Switch
+              thumbColor="#fff"
+              trackColor={{ false: "#ccc", true: "#39CC83" }}
+              value={values.open_on_week}
+              onValueChange={(value) => setFieldValue("open_on_week", value)}
+            />
+          </View>
 
-      <RectButton style={styles.nextButton} onPress={() => {}}>
-        <Text style={styles.nextButtonText}>Cadastrar</Text>
-      </RectButton>
-    </ScrollView>
+          <RectButton style={styles.nextButton} onPress={() => handleSubmit()}>
+            <Text style={styles.nextButtonText}>Cadastrar</Text>
+          </RectButton>
+        </ScrollView>
+      )}
+    </Formik>
   );
 };
 
