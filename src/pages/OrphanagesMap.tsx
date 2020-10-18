@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { StyleSheet, View, Dimensions, Text } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from "react-native-maps";
 import { Feather } from "@expo/vector-icons";
 
 import mapMarker from "../images/map-marker.png";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { RectButton } from "react-native-gesture-handler";
 import api from "../services/api";
 
@@ -14,11 +14,11 @@ const OrphanagesMap: React.FC = () => {
 
   const [orphanates, setOrphanates] = useState<IOrphanage[]>([]);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     api.get("/orphanages").then((response) => {
       setOrphanates((old) => [...old, ...response.data]);
     });
-  }, []);
+  });
 
   function handleNavigateToOrphanateDetails(id: number) {
     navigate("OrphanageDetails", { id });
@@ -40,9 +40,9 @@ const OrphanagesMap: React.FC = () => {
           longitudeDelta: 0.008,
         }}
       >
-        {orphanates.map((orphanate) => (
+        {orphanates.map((orphanate, index) => (
           <Marker
-            key={orphanate.id}
+            key={index}
             icon={mapMarker}
             calloutAnchor={{
               x: 2.7,

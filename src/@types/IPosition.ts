@@ -1,4 +1,4 @@
-interface Iposition {
+interface IPosition {
   latitude: number;
   longitude: number;
 }

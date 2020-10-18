@@ -9,7 +9,7 @@ import mapMarkerImg from "../../images/map-marker.png";
 const CreateOrphanage: React.FC = () => {
   const { navigate } = useNavigation();
 
-  const [position, setPosition] = useState<Iposition>({
+  const [position, setPosition] = useState<IPosition>({
     latitude: 0,
     longitude: 0,
   });
